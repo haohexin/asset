@@ -2,7 +2,9 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\AssetCategory;
+use App\Models\Department;
+use App\Models\Position;
+use App\Models\User;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -11,7 +13,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 
-class AssetCategoryController extends Controller
+class UserController extends Controller
 {
     use ModelForm;
 
@@ -24,10 +26,10 @@ class AssetCategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('资产类型管理');
-            $content->description('类型树');
+            $content->header('用户管理');
+            $content->description('用户列表');
 
-            $content->body(AssetCategory::tree());
+            $content->body($this->grid());
         });
     }
 
@@ -42,7 +44,7 @@ class AssetCategoryController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('资产类型管理');
+            $content->header('用户管理');
             $content->description('编辑');
 
             $content->body($this->form()->edit($id));
@@ -58,7 +60,7 @@ class AssetCategoryController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('资产类型管理');
+            $content->header('用户管理');
             $content->description('创建');
 
             $content->body($this->form());
@@ -72,12 +74,15 @@ class AssetCategoryController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(AssetCategory::class, function (Grid $grid) {
+        return Admin::grid(User::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-
+            $grid->column('name', '姓名')->editable();
+            $grid->column('department.title', '所属部门');
+            $grid->column('position.title', '职位');
             $grid->created_at();
             $grid->updated_at();
+            $grid->model()->orderBy('id', 'desc');
         });
     }
 
@@ -88,15 +93,12 @@ class AssetCategoryController extends Controller
      */
     protected function form()
     {
-        return Admin::form(AssetCategory::class, function (Form $form) {
+        return Admin::form(User::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->select('parent_id')->options(AssetCategory::selectOptions());
-            $form->text('title')->rules('required');
-            $form->number('order')->rules('required');
-
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+            $form->text('name', '姓名');
+            $form->select('department_id', '所属部门')->options(Department::selectOptions());
+            $form->select('position_id', '职位')->options(Position::selectOptions());
         });
     }
 }
