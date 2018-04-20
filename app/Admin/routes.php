@@ -12,4 +12,8 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
 
+    $router->resource('assetCategory', AssetCategoryController::class);
+    $router->resource('departments', DepartmentsController::class);
+    $router->resource('positions', PositionsController::class);
+
 });
