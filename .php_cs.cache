@@ -1,0 +1,1 @@
+{"php":"7.1.11","version":"2.11.1","rules":{"align_multiline_comment":true,"no_trailing_whitespace":true,"no_short_echo_tag":true,"no_unused_imports":true,"array_syntax":{"syntax":"short"},"ordered_imports":{"sortAlgorithm":"length"}},"hashes":{"app\/Models\/Revision.php":1030083755}}

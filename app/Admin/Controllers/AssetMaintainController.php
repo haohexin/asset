@@ -36,6 +36,7 @@ class AssetMaintainController extends Controller
      * Edit interface.
      *
      * @param $id
+     *
      * @return Content
      */
     public function edit($id)
@@ -100,7 +101,7 @@ class AssetMaintainController extends Controller
             $assets = Asset::get()->pluck('title', 'id');
             $form->select('asset_id', '所属资产')->options($assets);
             $form->date('date', '日期');
-            $form->text('cost','费用');
+            $form->text('cost', '费用');
             $form->textarea('record', '记录');
             $form->textarea('remark', '备注');
         });

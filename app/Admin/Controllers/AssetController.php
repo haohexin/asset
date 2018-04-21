@@ -141,8 +141,8 @@ class AssetController extends Controller
             $form->select('department_id', '使用部门')->options(Department::selectOptions());
             $form->select('department_keeper_id', '所属部门')->options(Department::selectOptions());
             $users = User::get()->pluck('name', 'id');
-            $form->multipleSelect('users','使用人')->options($users);
-            $form->multipleSelect('userkeepers','保管人')->options($users);
+            $form->multipleSelect('users', '使用人')->options($users);
+            $form->multipleSelect('userkeepers', '保管人')->options($users);
             $form->text('storage_place', '存放地址');
             $form->text('specification', '型号规格');
             $form->text('source', '来源');

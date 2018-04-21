@@ -23,6 +23,6 @@ Route::group([
     $router->resource('assetAddition', AssetAdditionController::class);
 
     $router->resource('assetMaintain', AssetMaintainController::class);
-    $router->resource('assetChange', AssetChangeController::class);
     $router->resource('assetScraped', AssetScrapedController::class);
+    $router->resource('revisions', RevisionController::class);
 });

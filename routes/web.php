@@ -12,5 +12,11 @@
 */
 
 Route::get('/', function () {
+    $asset = \App\Models\Asset::find(1);
+    $history = $asset->revisionHistory;
+    foreach ($history as $value){
+        dd($value->fieldName());
+    }
+    dd($history);
     return view('welcome');
 });
