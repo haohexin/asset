@@ -88,8 +88,22 @@ class AssetController extends Controller
             $grid->column('durable_year', '使用年限');
             $grid->column('department.title', '使用部门');
             $grid->column('departmentKeeper.title', '所属部门');
-            $grid->column('user.name', '使用人');
-            $grid->column('userKeeper.name', '保管人');
+            $grid->users('使用人')->display(function ($users) {
+
+                $users = array_map(function ($user) {
+                    return "<span class='label label-success'>{$user['name']}</span>";
+                }, $users);
+
+                return join('&nbsp;', $users);
+            });
+            $grid->userkeepers('保管人')->display(function ($users) {
+
+                $users = array_map(function ($user) {
+                    return "<span class='label label-success'>{$user['name']}</span>";
+                }, $users);
+
+                return join('&nbsp;', $users);
+            });
             $grid->column('storage_place', '存放地址');
             $grid->column('specification', '型号规格');
             $grid->column('source', '来源');
@@ -101,7 +115,6 @@ class AssetController extends Controller
             $grid->column('worth', '预计残净值');
             $grid->column('certificate_number', '凭证号');
             $grid->column('purpose', '用途');
-            $grid->column('status', '正常?')->switch();
             $grid->model()->orderBy('id', 'desc');
         });
     }
@@ -128,8 +141,8 @@ class AssetController extends Controller
             $form->select('department_id', '使用部门')->options(Department::selectOptions());
             $form->select('department_keeper_id', '所属部门')->options(Department::selectOptions());
             $users = User::get()->pluck('name', 'id');
-            $form->select('user_id', '使用人')->options($users);
-            $form->select('user_keeper_id', '保管人')->options($users);
+            $form->multipleSelect('users','使用人')->options($users);
+            $form->multipleSelect('userkeepers','保管人')->options($users);
             $form->text('storage_place', '存放地址');
             $form->text('specification', '型号规格');
             $form->text('source', '来源');
@@ -141,7 +154,6 @@ class AssetController extends Controller
             $form->text('worth', '预计残净值');
             $form->text('certificate_number', '凭证号');
             $form->text('purpose', '用途');
-            $form->switch('status', '正常');
         });
     }
 }

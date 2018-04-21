@@ -20,14 +20,14 @@ class Asset extends Model
     {
         return $this->hasOne(Department::class, 'id', 'department_keeper_id');
     }
-
-    public function user()
+    
+    public function users()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsToMany(User::class, 'asset_users', 'asset_id', 'user_id');
     }
 
-    public function userKeeper()
+    public function userkeepers()
     {
-        return $this->hasOne(User::class, 'id', 'user_keeper_id');
+        return $this->belongsToMany(User::class, 'asset_keeper_users', 'asset_id', 'user_id');
     }
 }
