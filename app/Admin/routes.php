@@ -21,4 +21,8 @@ Route::group([
     $router->resource('assets', AssetController::class);
 
     $router->resource('assetAddition', AssetAdditionController::class);
+
+    $router->resource('assetMaintain', AssetMaintainController::class);
+    $router->resource('assetChange', AssetChangeController::class);
+    $router->resource('assetScraped', AssetScrapedController::class);
 });
