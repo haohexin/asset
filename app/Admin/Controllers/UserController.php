@@ -17,6 +17,12 @@ class UserController extends Controller
 {
     use ModelForm;
 
+    public function __construct()
+    {
+        $this->departments = Department::selectOptions();
+        $this->positions = Position::selectOptions();
+    }
+
     /**
      * Index interface.
      *
@@ -83,6 +89,12 @@ class UserController extends Controller
             $grid->created_at();
             $grid->updated_at();
             $grid->model()->orderBy('id', 'desc');
+            $grid->filter(function ($filter) {
+                $filter->disableIdFilter();
+                $filter->like('name', '姓名');
+                $filter->in('department_id', '部门')->multipleSelect($this->departments);
+                $filter->in('position_id', '职务')->multipleSelect($this->positions);
+            });
         });
     }
 
@@ -97,8 +109,8 @@ class UserController extends Controller
 
             $form->display('id', 'ID');
             $form->text('name', '姓名');
-            $form->select('department_id', '所属部门')->options(Department::selectOptions());
-            $form->select('position_id', '职位')->options(Position::selectOptions());
+            $form->select('department_id', '所属部门')->options($this->departments);
+            $form->select('position_id', '职位')->options($this->positions);
         });
     }
 }

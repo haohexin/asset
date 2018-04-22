@@ -18,6 +18,13 @@ class AssetController extends Controller
 {
     use ModelForm;
 
+    public function __construct()
+    {
+        $this->departments = Department::selectOptions();
+        $this->assetCategories = AssetCategory::get()->pluck('title', 'id');
+    }
+
+
     /**
      * Index interface.
      *
@@ -119,8 +126,7 @@ class AssetController extends Controller
             $grid->filter(function ($filter) {
                 $filter->disableIdFilter();
                 $filter->like('title', '名称');
-                $assetCategory = AssetCategory::get()->pluck('title', 'id');
-                $filter->in('category_id', '类型')->multipleSelect($assetCategory);
+                $filter->in('category_id', '类型')->multipleSelect($this->assetCategories);
             });
         });
     }
@@ -136,7 +142,7 @@ class AssetController extends Controller
 
             $form->display('id', 'ID');
             $form->number('asset_id', '资产ID');
-            $form->select('category_id', '类型')->options(AssetCategory::selectOptions());
+            $form->select('category_id', '类型')->options($this->assetCategories);
             $form->text('number', '编号');
             $form->text('title', '名称');
             $form->text('supply', '供应单位');
@@ -144,8 +150,8 @@ class AssetController extends Controller
             $form->date('purchase_date', '购入日期');
             $form->date('commissioning_date', '启用日期');
             $form->text('durable_year', '使用年限');
-            $form->select('department_id', '使用部门')->options(Department::selectOptions());
-            $form->select('department_keeper_id', '所属部门')->options(Department::selectOptions());
+            $form->select('department_id', '使用部门')->options($this->departments);
+            $form->select('department_keeper_id', '所属部门')->options($this->departments);
             $users = User::get()->pluck('name', 'id');
             $form->multipleSelect('users', '使用人')->options($users);
             $form->multipleSelect('userkeepers', '保管人')->options($users);

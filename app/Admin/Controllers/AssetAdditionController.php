@@ -92,6 +92,7 @@ class AssetAdditionController extends Controller
                 $assets = Asset::get()->pluck('title', 'id');
                 $filter->disableIdFilter();
                 $filter->in('asset_id', '资产')->multipleSelect($assets);
+                $filter->like('title', '名称');
             });
         });
     }
