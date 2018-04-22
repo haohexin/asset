@@ -154,6 +154,26 @@ class AssetController extends Controller
             $form->text('worth', '预计残净值');
             $form->text('certificate_number', '凭证号');
             $form->text('purpose', '用途');
+            $form->hasMany('additions', '附加设备', function (Form\NestedForm $form) {
+                $form->text('title', '名称');
+                $form->text('specification', '型号规格');
+                $form->text('storage_place', '存放地点');
+                $form->text('unit_price', '单价');
+                $form->number('amount', '数量');
+                $form->text('original_value', '设备原值');
+                $form->date('commissioning_date', '启用日期');
+            });
+            $form->hasMany('maintains', '维修信息', function (Form\NestedForm $form) {
+                $form->date('date', '日期');
+                $form->text('cost', '费用');
+                $form->textarea('record', '记录');
+                $form->textarea('remark', '备注');
+            });
+            $form->hasMany('scraped', '报废信息', function (Form\NestedForm $form) {
+                $form->date('date', '日期');
+                $form->textarea('record', '记录');
+                $form->textarea('remark', '备注');
+            });
         });
     }
 }

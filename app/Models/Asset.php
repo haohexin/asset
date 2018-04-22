@@ -40,6 +40,21 @@ class Asset extends Model
         return $this->hasOne(AssetCategory::class, 'id', 'category_id');
     }
 
+    public function additions()
+    {
+        return $this->hasMany(AssetAddition::class);
+    }
+
+    public function maintains()
+    {
+        return $this->hasMany(AssetMaintain::class);
+    }
+
+    public function scraped()
+    {
+        return $this->hasMany(AssetScraped::class);
+    }
+
     public function department()
     {
         return $this->hasOne(Department::class, 'id', 'department_id');
