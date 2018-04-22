@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Asset;
 use App\Models\Revision;
 
 use Encore\Admin\Form;
@@ -75,13 +76,20 @@ class RevisionController extends Controller
         return Admin::grid(Revision::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->column('asset.title', '资产');
+            $grid->column('asset.title', '资产')->label();;
             $grid->column('key', '字段');
             $grid->column('old_value', '旧值');
             $grid->column('new_value', '新值');
 
             $grid->created_at('变更时间');
             $grid->model()->orderBy('id', 'desc');
+            $grid->disableCreateButton();
+            $grid->disableActions();
+            $grid->filter(function ($filter) {
+                $assets = Asset::get()->pluck('title', 'id');
+                $filter->disableIdFilter();
+                $filter->in('revisionable_id', '资产')->multipleSelect($assets);
+            });
         });
     }
 

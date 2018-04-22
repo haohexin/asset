@@ -76,7 +76,7 @@ class AssetMaintainController extends Controller
         return Admin::grid(AssetMaintain::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->column('asset.title', '所属资产');
+            $grid->column('asset.title', '所属资产')->label();;
             $grid->column('date', '日期');
             $grid->column('cost', '费用');
             $grid->column('record', '记录');
@@ -84,6 +84,12 @@ class AssetMaintainController extends Controller
 
             $grid->created_at();
             $grid->updated_at();
+            $grid->model()->orderBy('id', 'desc');
+            $grid->filter(function ($filter) {
+                $assets = Asset::get()->pluck('title', 'id');
+                $filter->disableIdFilter();
+                $filter->in('asset_id', '资产')->multipleSelect($assets);
+            });
         });
     }
 

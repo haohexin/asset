@@ -76,13 +76,19 @@ class AssetScrapedController extends Controller
         return Admin::grid(AssetScraped::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->column('asset.title', '所属资产');
+            $grid->column('asset.title', '资产')->label();;
             $grid->column('date', '日期');
             $grid->column('record', '记录');
             $grid->column('remark', '备注');
 
             $grid->created_at();
             $grid->updated_at();
+            $grid->model()->orderBy('id', 'desc');
+            $grid->filter(function ($filter) {
+                $assets = Asset::get()->pluck('title', 'id');
+                $filter->disableIdFilter();
+                $filter->in('asset_id', '资产')->multipleSelect($assets);
+            });
         });
     }
 
@@ -98,7 +104,7 @@ class AssetScrapedController extends Controller
             $form->display('id', 'ID');
 
             $assets = Asset::get()->pluck('title', 'id');
-            $form->select('asset_id', '所属资产')->options($assets);
+            $form->select('asset_id', '资产')->options($assets);
             $form->date('date', '日期');
             $form->textarea('record', '记录');
             $form->textarea('remark', '备注');

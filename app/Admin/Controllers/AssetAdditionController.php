@@ -87,6 +87,12 @@ class AssetAdditionController extends Controller
 
             $grid->created_at();
             $grid->updated_at();
+            $grid->model()->orderBy('id', 'desc');
+            $grid->filter(function ($filter) {
+                $assets = Asset::get()->pluck('title', 'id');
+                $filter->disableIdFilter();
+                $filter->in('asset_id', '资产')->multipleSelect($assets);
+            });
         });
     }
 

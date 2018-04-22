@@ -116,6 +116,12 @@ class AssetController extends Controller
             $grid->column('certificate_number', '凭证号');
             $grid->column('purpose', '用途');
             $grid->model()->orderBy('id', 'desc');
+            $grid->filter(function ($filter) {
+                $filter->disableIdFilter();
+                $filter->like('title', '名称');
+                $assetCategory = AssetCategory::get()->pluck('title', 'id');
+                $filter->in('category_id', '类型')->multipleSelect($assetCategory);
+            });
         });
     }
 
