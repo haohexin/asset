@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    $asset = \App\Models\Asset::first();
-    dd($asset->additions);
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
