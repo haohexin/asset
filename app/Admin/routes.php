@@ -10,7 +10,7 @@ Route::group([
     'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index');
+    $router->get('/', 'AssetController@index');
 
     $router->resource('assetCategory', AssetCategoryController::class);
     $router->resource('departments', DepartmentsController::class);
